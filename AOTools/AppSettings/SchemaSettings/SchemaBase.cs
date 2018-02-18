@@ -2,10 +2,6 @@
 
 using System;
 using System.Runtime.Serialization;
-
-using Autodesk.Revit.DB;
-
-using AOTools.AppSettings.RevitSettings;
 using UtilityLibrary;
 
 //using Autodesk.Revit.DB;

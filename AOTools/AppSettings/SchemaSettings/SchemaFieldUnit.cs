@@ -1,8 +1,6 @@
 ﻿using System.Runtime.Serialization;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.DB.ExtensibleStorage;
-
-using AOTools.AppSettings.RevitSettings;
 using UtilityLibrary;
 
 

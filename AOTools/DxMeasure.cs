@@ -1,6 +1,7 @@
 #region Namespaces
 
 using System.Windows.Forms;
+using AOTools.AppSettings.ConfigSettings;
 using AOTools.Utility;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
@@ -29,8 +30,11 @@ namespace AOTools
 			_uiDoc = uiApp.ActiveUIDocument;
 			_doc = _uiDoc.Document;
 
+			SettingsApp.Init();
+			SettingsUsr.Init();
+
 			// this cleaned up the text display problem
-//			Application.SetCompatibleTextRenderingDefault(false);
+			//			Application.SetCompatibleTextRenderingDefault(false);
 
 			using (TransactionGroup tg = new TransactionGroup(_doc, "measure points"))
 			{

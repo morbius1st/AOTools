@@ -5,8 +5,6 @@ VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOTools", "AOTools\AOTools.csproj", "{DDC429DE-0FCC-45A7-A152-112E9AB46CC4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AOToolsVue", "AOToolsVue\AOToolsVue.csproj", "{907CEB89-DD00-47D1-9366-198207C325E7}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		DebugTools|Any CPU = DebugTools|Any CPU
@@ -19,11 +17,6 @@ Global
 		{DDC429DE-0FCC-45A7-A152-112E9AB46CC4}.DebugVue|Any CPU.ActiveCfg = DebugTools|Any CPU
 		{DDC429DE-0FCC-45A7-A152-112E9AB46CC4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DDC429DE-0FCC-45A7-A152-112E9AB46CC4}.Release|Any CPU.Build.0 = Release|Any CPU
-		{907CEB89-DD00-47D1-9366-198207C325E7}.DebugTools|Any CPU.ActiveCfg = DebugVue|Any CPU
-		{907CEB89-DD00-47D1-9366-198207C325E7}.DebugVue|Any CPU.ActiveCfg = DebugVue|Any CPU
-		{907CEB89-DD00-47D1-9366-198207C325E7}.DebugVue|Any CPU.Build.0 = DebugVue|Any CPU
-		{907CEB89-DD00-47D1-9366-198207C325E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{907CEB89-DD00-47D1-9366-198207C325E7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

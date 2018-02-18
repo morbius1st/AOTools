@@ -89,9 +89,8 @@
       <Link>AppSettings\Settings\SettingsMgr.cs</Link>
     </Compile>
     <Compile Include="AppRibbon.cs" />
-    <Compile Include="AppSettings\SettingUtil\SettingsListings.cs" />
-    <Compile Include="AppSettings\SchemaSettings\SchemaUnitUtil.cs" />
-    <Compile Include="UnitStylesDelete.cs" />
+    <Compile Include="AppSettings\ConfigSettings\SettingsApp.cs" />
+    <Compile Include="AppSettings\ConfigSettings\SettingsUsr.cs" />
     <Compile Include="DxMeasure.cs" />
     <Compile Include="Utility\Extensions.cs" />
     <Compile Include="FormMeasurePoints.cs">
@@ -106,18 +105,10 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="AppSettings\RevitSettings\RevitSettingsBase.cs" />
-    <Compile Include="AppSettings\RevitSettings\RevitSettingsMgr.cs" />
-    <Compile Include="AppSettings\SchemaSettings\SchemaDictionary.cs" />
-    <Compile Include="AppSettings\SchemaSettings\SchemaFieldUnit.cs" />
-    <Compile Include="AppSettings\SchemaSettings\SchemaBase.cs" />
-    <Compile Include="AppSettings\RevitSettings\RevitSettingsUnit.cs" />
-    <Compile Include="UnitStylesCommand.cs" />
     <Compile Include="ToggleAnnotationVisibility.cs" />
     <Compile Include="ToggleRefPlane.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="AppSettings\ConfigSettings\SettingsApp.cs" />
-    <Compile Include="AppSettings\ConfigSettings\SettingsUsr.cs" />
+    <Compile Include="Utility\UiUtil.cs" />
     <Compile Include="Utility\Util.cs" />
     <Compile Include="Utility\AddinClasses.cs" />
   </ItemGroup>

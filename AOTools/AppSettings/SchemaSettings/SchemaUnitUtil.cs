@@ -2,9 +2,6 @@
 
 using Autodesk.Revit.DB;
 
-using AOTools.AppSettings.RevitSettings;
-using static AOTools.AppSettings.RevitSettings.RevitSettingsUnitUsr;
-
 
 namespace AOTools.AppSettings.SchemaSettings
 {

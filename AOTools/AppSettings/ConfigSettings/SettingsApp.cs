@@ -1,10 +1,9 @@
 ﻿#region Using directives
 
 using System.Runtime.Serialization;
-using static AOTools.AppSettings.RevitSettings.RevitSettingsUnitApp;
+
 #endregion
 
-using AOTools.AppSettings.SchemaSettings;
 using UtilityLibrary;
 
 // itemname:	SettingsFileApp
@@ -22,7 +21,7 @@ namespace AOTools.AppSettings.ConfigSettings
 
 		public static SettingsAppBase SmAppSetg { get; private set; }
 
-		public static void SmAppInit()
+		public static void Init()
 		{
 			SmApp = new SettingsMgr<SettingsAppBase>();
 			SmAppSetg = SmApp.Settings;
@@ -44,8 +43,8 @@ namespace AOTools.AppSettings.ConfigSettings
 		[DataMember]
 		public int[] AppIs { get; set; } = new[] {10, 20, 30 };
 
-		[DataMember]
-		public SchemaDictionaryApp SettingsAppData = RsuApp.DefAppSchema;
+//		[DataMember]
+//		public SchemaDictionaryApp SettingsAppData = RsuApp.DefAppSchema;
 
 		
 	}

@@ -1,14 +1,8 @@
 ﻿#region Using directives
 
-using AOTools.AppSettings.RevitSettings;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-
-using static AOTools.AppSettings.RevitSettings.RevitSettingsMgr;
-using static AOTools.AppSettings.RevitSettings.RevitSettingsBase.RevitSetgDelRetnCode;
-using static AOTools.AppSettings.SettingUtil.SettingsListings;
-
 using static UtilityLibrary.MessageUtilities;
 
 #endregion

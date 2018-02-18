@@ -1,14 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using AOTools.AppSettings.ConfigSettings;
-using AOTools.AppSettings.RevitSettings;
 using AOTools.AppSettings.SchemaSettings;
 using static UtilityLibrary.MessageUtilities;
 
 using static AOTools.AppSettings.ConfigSettings.SettingsApp;
 using static AOTools.AppSettings.ConfigSettings.SettingsUsr;
-using static AOTools.AppSettings.RevitSettings.RevitSettingsUnitApp;
-using static AOTools.AppSettings.RevitSettings.RevitSettingsUnitUsr;
 
 
 namespace AOTools.AppSettings.SettingUtil

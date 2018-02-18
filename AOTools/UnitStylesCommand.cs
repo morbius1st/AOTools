@@ -1,28 +1,13 @@
 ﻿#region Using directives
 
 using System.Collections.Generic;
-using System.Xml;
 using AOTools.AppSettings.ConfigSettings;
 using Autodesk.Revit.Attributes;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI;
-
-using AOTools.AppSettings.RevitSettings;
-using AOTools.AppSettings.SchemaSettings;
 using UtilityLibrary;
 using static AOTools.AppSettings.ConfigSettings.SettingsUsr;
-using static AOTools.AppSettings.SchemaSettings.SchemaAppKey;
-using static AOTools.AppSettings.SchemaSettings.SchemaUsrKey;
-using static AOTools.AppSettings.SettingUtil.SettingsListings;
-
-using static AOTools.AppSettings.RevitSettings.RevitSettingsMgr;
-using static AOTools.AppSettings.RevitSettings.RevitSettingsUnitUsr;
-using static AOTools.AppSettings.RevitSettings.RevitSettingsUnitApp;
-
 using static AOTools.AppSettings.ConfigSettings.SettingsApp;
-using static AOTools.AppSettings.ConfigSettings.SettingsUsr;
-
-
 using static UtilityLibrary.MessageUtilities;
 
 #endregion
