@@ -26,18 +26,6 @@ namespace AOTools.AppSettings.RevitSettings
 		// ******************************
 		// read setting
 		// ******************************
-//		public bool Read2()
-//		{
-//
-//			if (!ReadAllRevitSettings())
-//			{
-//				if (!Save()) { return false; }
-//
-//				return ReadAllRevitSettings();
-//			}
-//
-//			return true;
-//		}
 
 		public bool Read()
 		{
@@ -59,20 +47,6 @@ namespace AOTools.AppSettings.RevitSettings
 		// save the settings - if the active schema is
 		// is not valid, delete the current schema and
 		// then save
-//		public bool Save2()
-//		{
-//
-//			SaveRtnCodes code = SaveAllRevitSettings();
-//
-//			if (code == SaveRtnCodes.DUPLICATE)
-//			{
-//				code = SaveRtnCodes.GOOD;
-//
-//				Update();
-//			}
-//
-//			return code == SaveRtnCodes.GOOD;
-//		}
 
 		private SaveRtnCodes Save(bool byPass)
 		{
@@ -118,15 +92,6 @@ namespace AOTools.AppSettings.RevitSettings
 		// ******************************
 
 		// update the schema with the current schema
-//		public bool Update2()
-//		{
-//
-//			if (!ChkDelRetnCode(DeleteAllSchemas(), 
-//				"Updating Settings")) { return false;}
-//
-//			return Save();
-//		}
-
 		public bool Update()
 		{
 #if DEBUG
@@ -150,20 +115,6 @@ namespace AOTools.AppSettings.RevitSettings
 		// ******************************
 
 		// reset the settings to their default values
-//		public void Initalize2()
-//		{
-//
-//			if (!ChkDelRetnCode(DeleteAllSchemas(), 
-//				"Reset Settings")) { return; }
-//
-//			// eliminate the current data and
-//			// replace with a generic, default
-//			// set of values
-//			RsuUsr.Initalize();
-//
-//			Save();
-//		}
-
 		public bool Reset()
 		{
 #if DEBUG

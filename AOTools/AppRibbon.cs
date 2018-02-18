@@ -10,6 +10,9 @@ using Application = Autodesk.Revit.ApplicationServices.Application;
 using UtilityLibrary;
 using static UtilityLibrary.MessageUtilities;
 
+using static AOTools.AppSettings.ConfigSettings.SettingsApp;
+using static AOTools.AppSettings.SettingUtil.SettingsListings;
+
 #endregion
 
 namespace AOTools
@@ -27,6 +30,8 @@ namespace AOTools
 
 		private static bool _eventsRegistered = false;
 		private static bool _unitsConfigured = false;
+
+		private static bool _familyDocumentCreated = false;
 
 		private static UIControlledApplication _uiCtrlApp;
 		internal static UIApplication UiApp;
@@ -129,7 +134,7 @@ namespace AOTools
 					return Result.Failed;
 				}
 
-				//UnitStylesDelete
+				SmAppInit();
 
 				return Result.Succeeded;
 			}
@@ -145,7 +150,6 @@ namespace AOTools
 		{
 			try
 			{
-				
 				// begin code here
 				return Result.Succeeded;
 			}
@@ -209,8 +213,9 @@ namespace AOTools
 		{
 			//			UiApp.ViewActivated -= ViewActivated;
 
-			App.DocumentOpened += DocOpenEvent;
-			App.DocumentCreated += DocCreateEvent;
+			App.DocumentOpened -= DocOpenEvent;
+//			App.DocumentCreated += DocCreatedEvent;
+			App.DocumentCreating -= DocCreatingEvent;
 
 			UiApp.ApplicationClosing -= AppClosing;
 		}
@@ -237,8 +242,9 @@ namespace AOTools
 			{
 //				UiApp.ViewActivated += ViewActivated;
 //				UiApp.ViewActivated += ViewActivated;
-				App.DocumentOpened += new EventHandler<DocumentOpenedEventArgs>(DocOpenEvent);
-				App.DocumentCreated += new EventHandler<DocumentCreatedEventArgs>(DocCreateEvent);
+				App.DocumentOpened += DocOpenEvent;
+//				App.DocumentCreated += new EventHandler<DocumentCreatedEventArgs>(DocCreatedEvent);
+				App.DocumentCreating += DocCreatingEvent;
 
 				UiApp.ApplicationClosing += AppClosing;
 			}
@@ -250,60 +256,73 @@ namespace AOTools
 			return true;
 		}
 
+		private void App_DocumentCreating(object sender, DocumentCreatingEventArgs e)
+		{
+			throw new NotImplementedException();
+		}
+
 		private void DocOpenEvent(object sender, DocumentOpenedEventArgs args)
 		{
 			Doc = args.Document;
 
 			logMsgDbLn2("doc open event", "0");
 
-			ReadUnits();
+			SetUnits();
 
-			logMsgDbLn2("doc open event", "1");
-
-//			AddInfoToProjectBasepoint();
-
-//			logMsgDbLn2("read message", ReadRevitSettings2());
-
+			logMsgDbLn2("doc open event", "9");
 
 		}
 
-		private void DocCreateEvent(object sender, DocumentCreatedEventArgs args)
+		private void DocCreatingEvent(object sender, DocumentCreatingEventArgs args)
 		{
-			Doc = args.Document;
+			logMsgDbLn2("doc creating event", "0");
 
-			ReadUnits();
+			if (args.DocumentType == DocumentType.Family)
+			{
+				_familyDocumentCreated = true;
+				logMsgDbLn2("doc creating event", "got family");
+			}
+
+			SetUnits();
+
+
+			logMsgDbLn2("doc creating event", "9");
 		}
 
-		private bool ReadUnits()
+
+//		private void DocCreatedEvent(object sender, DocumentCreatedEventArgs args)
+//		{
+//			logMsgDbLn2("doc create event", "0");
+//
+//			Doc = args.Document;
+//
+//			SetUnits();
+//
+//			_familyDocumentCreated = false;
+//
+//			logMsgDbLn2("doc create event", "9");
+//		}
+
+		private bool SetUnits()
 		{
-			logMsgDbLn2("read units", "0");
+			logMsgDbLn2("set units", "0");
 
 			Units u = Doc.GetUnits();
-
-//			FormatOptions f = u.GetFormatOptions(UnitType.UT_Length);
-//
-//			logMsgDbLn2("read units| accuracy", f.Accuracy.ToString());
 
 			double accuracy = (1.0 / 12.0) / 16.0;
 
 			try
 			{
 				Units units = new Units(UnitSystem.Imperial);
-//				logMsgDbLn2("read units", "1");
 				FormatOptions fmtOps = 
 					new FormatOptions(DisplayUnitType.DUT_FEET_FRACTIONAL_INCHES, 
 						UnitSymbolType.UST_NONE, accuracy);
-//				logMsgDbLn2("read units", "2");
 
 				fmtOps.SuppressSpaces = true;
 				fmtOps.SuppressLeadingZeros = false;
 				fmtOps.UseDigitGrouping = true;
 
-//				logMsgDbLn2("read units", "3");
-
 				units.SetFormatOptions(UnitType.UT_Length, fmtOps);
-
-//				logMsgDbLn2("read units", "5");
 
 				using (Transaction t = new Transaction(Doc, "Update Units"))
 				{
@@ -311,17 +330,15 @@ namespace AOTools
 					Doc.SetUnits(units);
 					t.Commit();
 				}
-
-
 			}
 			catch (Exception e)
 			{
-				logMsgDbLn2("read units: Exception|", e.Message);
+				logMsgDbLn2("set units: Exception|", e.Message);
 				throw;
 			}
 			_unitsConfigured = false;
 
-			logMsgDbLn2("read units", "9");
+			logMsgDbLn2("set units", "9");
 
 			return _unitsConfigured;
 		}
