@@ -117,7 +117,7 @@ namespace AOTools
 
 		internal void ClearText()
 		{
-
+			
 			lblMessage.Text = "";
 
 			lblP1X.Text		= "";

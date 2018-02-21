@@ -18,7 +18,8 @@ namespace AOTools
 	[Transaction(TransactionMode.Manual)]
 	public class DxMeasure : IExternalCommand
 	{
-		private static FormMeasurePoints _form;
+//		private static FormMeasurePoints _form;
+		private static FrmDxMeasure _form;
 		private static UIDocument _uiDoc;
 		private static Document _doc;
 
@@ -30,7 +31,6 @@ namespace AOTools
 			_uiDoc = uiApp.ActiveUIDocument;
 			_doc = _uiDoc.Document;
 
-			SettingsApp.Init();
 			SettingsUsr.Init();
 
 			// this cleaned up the text display problem
@@ -40,20 +40,24 @@ namespace AOTools
 			{
 				tg.Start();
 				Process(_uiDoc, _doc);
-				tg.RollBack();
+
+				if (tg.GetStatus() == TransactionStatus.Started)
+				{
+					tg.RollBack();
+				}
 			}
 
 			return Result.Succeeded;
 		}
 
-		internal static bool Process(UIDocument uiDoc, Document doc)
+		private bool Process(UIDocument uiDoc, Document doc)
 		{
 			_uiDoc = uiDoc;
 			_doc = doc;
 
-			_form = new FormMeasurePoints();
+			//			_form = new FormMeasurePoints();
 
-			Autodesk.Revit.DB.View av = _doc.ActiveView;
+			View av = _doc.ActiveView;
 
 			VType vtype = GetViewType(av);
 
@@ -81,20 +85,15 @@ namespace AOTools
 
 					t.Commit();
 				}
-
-				MeasurePts(av, vtype);
-
-			}
-			else
-			{
-				MeasurePts(av, vtype);
 			}
 
-			return true;
+			return MeasurePts(av, vtype);
 		}
 
 		private static bool MeasurePts(View av, VType vtype)
 		{
+			_form = new FrmDxMeasure();
+
 			bool again = true;
 
 			XYZ normal = XYZ.BasisZ;
@@ -119,21 +118,28 @@ namespace AOTools
 
 			PointMeasurements? pm = GetPts(workingOrigin);
 
+			if (pm == null) { return false; }
+
 			while (again)
 			{
 				_form.UpdatePoints(pm, vtype, normal, actualOrigin, 
 					planeName, _doc.GetUnits());
 
-				DialogResult result = _form.ShowDialog();
+				_form.ShowDialog();
 
 				ShowHideWorkplane(p, av);
 
-				switch (result)
+				switch (_form.DialogResult.HasValue &&
+					_form.DialogResult.Value)
 				{
-					case DialogResult.OK:
+					case true:
 						pm = GetPts(workingOrigin);
+
+						if (pm == null) { return false;}
+
+						_form = new FrmDxMeasure();
 						break;
-					case DialogResult.Cancel:
+					default:
 						// must process the whole list of TransactionGroups
 						// held by the stack
 						again = false;
@@ -146,10 +152,13 @@ namespace AOTools
 
 		private static PointMeasurements? GetPts(XYZ workingOrigin)
 		{
-			_form.lblMessage.ResetText();
-
 			XYZ startPoint;
 			XYZ endPoint;
+
+			if (!IsPlaneOrientationAcceptable(_uiDoc))
+			{
+				return null;
+			}
 
 			try
 			{

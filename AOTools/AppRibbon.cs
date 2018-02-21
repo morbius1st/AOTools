@@ -19,7 +19,7 @@ namespace AOTools
 	{
 		internal const string APP_NAME = "AOTools";
 
-		private const string BUTTON_NAME1 = "Unit\nStyles";
+		private const string BUTTON_NAME1 = "Delux\nMeasure";
 		private const string BUTTON_NAME2 = "Delete\nStyles";
 		private const string PANEL_NAME = "AO Tools";
 		private const string TAB_NAME = "AO Tools";
@@ -149,6 +149,7 @@ namespace AOTools
 
 		private void AppClosing(object sender, ApplicationClosingEventArgs args)
 		{
+			App.DocumentCreated -= DocCreatedEvent;
 			App.DocumentCreating -= DocCreatingEvent;
 			UiApp.ApplicationClosing -= AppClosing;
 		}
@@ -160,6 +161,7 @@ namespace AOTools
 
 			try
 			{
+				App.DocumentCreated += DocCreatedEvent;
 				App.DocumentCreating += DocCreatingEvent;
 				UiApp.ApplicationClosing += AppClosing;
 			}
@@ -171,15 +173,26 @@ namespace AOTools
 			return true;
 		}
 
+		private void DocCreatedEvent(object sender, DocumentCreatedEventArgs args)
+		{
+			if (_familyDocumentCreated)
+			{
+				logMsgDbLn2("document", "created");
+				_familyDocumentCreated = false;
+
+				SetUnits(args.Document);
+			}
+		}
 		private void DocCreatingEvent(object sender, DocumentCreatingEventArgs args)
 		{
 			if (args.DocumentType == DocumentType.Family)
 			{
-				SetUnits();
+				_familyDocumentCreated = true;
+				logMsgDbLn2("document", "creating");
 			}
 		}
 
-		private void SetUnits()
+		private void SetUnits(Document doc)
 		{
 			double accuracy = (1.0 / 12.0) / 16.0;
 
@@ -191,15 +204,15 @@ namespace AOTools
 						UnitSymbolType.UST_NONE, accuracy);
 
 				fmtOps.SuppressSpaces = true;
-				fmtOps.SuppressLeadingZeros = false;
+				fmtOps.SuppressLeadingZeros = true;
 				fmtOps.UseDigitGrouping = true;
 
 				units.SetFormatOptions(UnitType.UT_Length, fmtOps);
 
-				using (Transaction t = new Transaction(Doc, "Update Units"))
+				using (Transaction t = new Transaction(doc, "Update Units"))
 				{
 					t.Start();
-					Doc.SetUnits(units);
+					doc.SetUnits(units);
 					t.Commit();
 				}
 			}

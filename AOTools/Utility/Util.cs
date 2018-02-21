@@ -4,6 +4,11 @@ using System.IO;
 using System.Xml.Serialization;
 using Autodesk.Revit.DB;
 using Autodesk.Revit.UI.Selection;
+using Autodesk.Revit.UI;
+using View = Autodesk.Revit.DB.View;
+
+using static UtilityLibrary.MessageUtilities;
+
 using UtilityLibrary;
 
 namespace AOTools.Utility
@@ -137,6 +142,23 @@ namespace AOTools.Utility
 			}
 			
 			return siteElements[0];
+		}
+
+		internal static bool IsPlaneOrientationAcceptable(UIDocument uiDoc)
+		{
+			View v = uiDoc.ActiveGraphicalView;
+			SketchPlane sp = uiDoc.ActiveGraphicalView.SketchPlane;
+			Plane p = sp?.GetPlane();
+
+			if (p == null) { return false; }
+
+			double dp = Math.Abs(v.ViewDirection.DotProduct(p.Normal));
+
+			logMsgDbLn2("rotation acceptable?", dp.ToString());
+
+			if (dp < 0.05) { return false; }
+
+			return true;
 		}
 
 	}
